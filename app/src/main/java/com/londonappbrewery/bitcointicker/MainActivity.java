@@ -26,11 +26,11 @@ public class MainActivity extends AppCompatActivity {
 
     // Constants:
     // TODO: Create the base URL
-    private final String BASE_URL = "https://apiv2.bitcoinaverage.com/indices/global/ticker/";
+    private final String BASE_URL = "https://apiv2.bitcoinaverage.com/indices/global/ticker/BTC";
 
     // Member Variables:
     TextView mPriceTextView;
-    String currency;
+    String currency = "AUD";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Bitcoin", "Nothing selected");
             }
         });
+        letsDoSomeNetworking(BASE_URL + currency);
     }
 
     // TODO: complete the letsDoSomeNetworking() method
@@ -71,11 +72,11 @@ public class MainActivity extends AppCompatActivity {
         AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("x-ba-key", "NDk4MzA3ZTdmNDBhNGFhZDg4ZGM2NjNlY2M3NDQ0Yzc");
         client.get(url ,new JsonHttpResponseHandler() {
-
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // called when response HTTP status is "200 OK"
                 try {
+                    Log.d("Bitcoin","" + response);
                     mPriceTextView.setText(response.getString("last"));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject response) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                Log.e("Bitcoin",e.getMessage());
             }
         });
 
